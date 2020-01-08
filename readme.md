@@ -12,21 +12,21 @@ Automate filling of a Berkey water filtration system
 Berkey water filtration system is a single-stage filtration device that contains an upper reservoir (to be filtered) and a lower reservoir (of filtered water) seperated by a filter. The lower reservoir also incorporates a dispenser.
 
 
-[==========]
-|          |
-|   upper  |
-| reservoir|
-|          |
-------------
-|  filter  |
-------------
-|          |
-|   lower  | \
-| reservoir|={}  <-- dispenser
-|          |  
-============
+        [==========]
+        |          |
+        |   upper  |
+        | reservoir|
+        |          |
+        ------------
+        |  filter  |
+        ------------
+        |          |
+        |   lower  | \
+        | reservoir|={}  <-- dispenser
+        |          |  
+        ============
 
-Fig. 1: Simplified model of the Berkey water filtration system
+        Fig. 1: Simplified model of the Berkey water filtration system
 
 ## Option 1
 
@@ -36,11 +36,13 @@ The fill line ties off the cold water line to the kitchen tap and routes to the 
 ### Schematic
 
 water:
-[cold water line to tap]------->[fill valve]------->[upper reservoir]------->[filter]------->[lower reservoir/dispenser]
+
+        [cold water line to tap]------->[fill valve]------->[upper reservoir]------->[filter]------->[lower reservoir/dispenser]
 
 logic:
-[fill valve (ON/OFF)]<---------(DO)[micro     ](DI)<------------[upper limit switch (Upper_Reservoir_is_Full)]
-                                   [controller](DI)<------------[lower limit switch (Lower_Reservoir_is_Empty)]
+
+        [fill valve (ON/OFF)]<---------(DO)[micro     ](DI)<------------[upper limit switch (Upper_Reservoir_is_Full)]
+                                           [controller](DI)<------------[lower limit switch (Lower_Reservoir_is_Empty)]
 
 
 
@@ -60,22 +62,30 @@ If upper reservoir is empty, and lower reservoir is empty, open the valve if clo
 
 Four states:
 1. lower reservoir full, upper empty (default--purified water available for use)
+```
     UPPER = FALSE
     LOWER = TRUE
     VALVE = OFF
+```    
 2. lower reservoir full, upper full (disallowed--would lead to an overflow of the lower reservoir)
+```
     UPPER = TRUE
     LOWER = TRUE
     VALVE = OFF
+```    
 3. lower reservoir empty, upper empty (fill--time to fill up the upper reservoir)
+```
     UPPER = FALSE
     LOWER = FALSE
     VALVE = ON
+```    
 4. lower reservoir empty, upper full (stop filling--turn off the water to keep from overflowing the upper reservoir)
+```
     UPPER = TRUE
     LOWER = FALSE
     VALVE = OFF
-    
+```
+
 Pseudo-code:
 ```
 Initialize:
